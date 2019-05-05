@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" stylesheets="CSS/mainApplicationCSS.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.userPanelController">
+   <children>
+      <TabPane prefHeight="768.0" prefWidth="1366.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+            <Tab fx:id="tabbedProductUser" text="Produkty">
+               <content>
+                  <SplitPane dividerPositions="0.30186823992133727">
+                     <items>
+                        <AnchorPane>
+                           <children>
+                              <GridPane layoutX="12.0" layoutY="40.0" prefHeight="352.0" prefWidth="360.0" AnchorPane.bottomAnchor="369.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="40.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="169.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="217.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="80.0" minHeight="7.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="27.0" prefWidth="137.0" text="Nazwa produktu:" />
+                                    <Label text="Parametry produktu:" GridPane.rowIndex="1" />
+                                    <Label prefHeight="27.0" prefWidth="130.0" text="Opis produktu: " GridPane.rowIndex="2" />
+                                    <Label prefHeight="18.0" prefWidth="165.0" text="Cena:" GridPane.rowIndex="3" />
+                                    <Label text="Kategoria:" GridPane.rowIndex="4" />
+                                    <Label text="Podkategoria: " GridPane.rowIndex="5" />
+                                    <Label text="Producent: " GridPane.rowIndex="6" />
+                                    <Label fx:id="textNameProduct" prefHeight="99.0" prefWidth="217.0" GridPane.columnIndex="1" />
+                                    <Label fx:id="textParamProduct" prefHeight="99.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="textDescribeProduct" prefHeight="99.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="textPriceProduct" prefHeight="99.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label fx:id="textCatProduct" prefHeight="99.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="textUnderCatProduct" prefHeight="99.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label fx:id="textProducentProduct" prefHeight="99.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                 </children>
+                              </GridPane>
+                              <Label alignment="CENTER" layoutX="115.0" layoutY="7.0" prefHeight="34.0" prefWidth="180.0" text="Produkty" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="114.0" />
+                              <ImageView fx:id="showIMGproduct" fitHeight="256.0" fitWidth="287.0" layoutX="62.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="60.0" />
+                              <TextField fx:id="searchingField" layoutX="11.0" layoutY="426.0" prefHeight="27.0" prefWidth="387.0" promptText="Znajdź rekord" />
+                              <ComboBox fx:id="choseSearch" layoutX="11.0" layoutY="394.0" prefHeight="25.0" prefWidth="151.0" promptText="Wybór przeszukania" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="247.0" />
+                              <Button fx:id="buyingButton" layoutX="284.0" layoutY="390.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="111.0" text="Kup!" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <TableView fx:id="tabProduct" layoutY="3.0" prefHeight="739.0" prefWidth="951.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columns>
+                                    <TableColumn fx:id="nameTableProduct" prefWidth="132.0" text="Nazwa" />
+                                    <TableColumn fx:id="paramTableProduct" prefWidth="126.0" text="Parametry" />
+                                    <TableColumn fx:id="descTableProduct" minWidth="2.0" prefWidth="125.0" text="Opis" />
+                                    <TableColumn fx:id="priceTableProduct" minWidth="9.0" prefWidth="61.0" text="Cena" />
+                                    <TableColumn fx:id="catTableProduct" prefWidth="174.0" text="Kategoria" />
+                                    <TableColumn fx:id="underCatTableProduct" prefWidth="164.0" text="Podkategoria" />
+                                    <TableColumn fx:id="producentTableProduct" prefWidth="168.0" text="Producent" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+          <Tab fx:id="tabbedOrdersUsers" text="Zamowienia">
+               <content>
+                  <SplitPane dividerPositions="0.30186823992133727">
+                     <items>
+                        <AnchorPane>
+                           <children>
+                              <GridPane layoutX="13.0" layoutY="41.0" prefHeight="144.0" prefWidth="391.0" AnchorPane.bottomAnchor="554.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="41.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="165.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.0" minWidth="10.0" prefWidth="232.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="128.0" minHeight="0.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="128.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="48.0" prefWidth="227.0" text="Nazwa produktu:" />
+                                    <Label prefHeight="101.0" prefWidth="165.0" text="Cena:" GridPane.rowIndex="1" />
+                                    <Label fx:id="labelBoughtProduct" prefHeight="53.0" prefWidth="217.0" GridPane.columnIndex="1" />
+                                    <Label fx:id="labelBoughtPrice" prefHeight="45.0" prefWidth="273.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label prefHeight="91.0" prefWidth="165.0" text="Status zamowienia: " GridPane.rowIndex="2" />
+                                    <Label fx:id="labelOrderStatus" prefHeight="55.0" prefWidth="262.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                              <Label alignment="CENTER" layoutX="115.0" layoutY="7.0" prefHeight="34.0" prefWidth="180.0" text="Zamowienia" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="114.0" />
+                              <ImageView fx:id="showBoughtIMG" fitHeight="256.0" fitWidth="287.0" layoutX="61.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="61.0" />
+                              <TextField fx:id="searchingBoughtField" layoutX="11.0" layoutY="218.0" prefHeight="27.0" prefWidth="387.0" promptText="Znajdź rekord" />
+                              <ComboBox fx:id="choseBoughtSearch" layoutX="11.0" layoutY="185.0" prefHeight="25.0" prefWidth="151.0" promptText="Wybór przeszukania" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="247.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <TableView fx:id="tabBought" layoutX="1.0" prefHeight="728.0" prefWidth="949.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+                                 <columns>
+                                    <TableColumn fx:id="prodNameTableBought" prefWidth="509.0" text="Nazwa" />
+                                    <TableColumn fx:id="priceTableBought" minWidth="0.0" prefWidth="133.0" text="Cena" />
+                                    <TableColumn fx:id="statusTableBought" prefWidth="355.0" text="Status Zamowienia" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,28 @@
+.root{
+    -fx-background-color: #000033;
+    -fx-opacity: 0.9;
+}
+.label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+.button{
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 3px;
+}
+.button:pressed{
+    -fx-background-color: #4a1580;
+    -fx-text-fill: white;
+    -fx-border-color: black;
+    -fx-border-width: 3px;
+}
+.text-field {
+  -fx-border-color: black;
+  -fx-border-width: 0 0 1 0;
+  -fx-background-color: transparent;
+  -fx-prompt-text-fill:#488985;
+  -fx-text-fill: white;
+  -fx-font-size: 15;
+}
