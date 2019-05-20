@@ -5,11 +5,15 @@
  */
 package DAO;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import modele.Kategorie;
 import modele.Podkategorie;
+
 
 /**
  *
@@ -19,9 +23,34 @@ public class podkategorieDAO extends HibernateUtil {
     
     public List<Podkategorie> getAll() {
          
-         List<Podkategorie> lista = openSessionWithTrans().createSQLQuery("Select * from Podkategorie").addEntity(Podkategorie.class).list();
-         closeSessionWithTrans();
-         return lista;
+         openSessionWithTrans();
+            List<Podkategorie> list = new ArrayList<Podkategorie>();
+            getCurrentLocalSession().doWork((Connection connection) -> {
+            CallableStatement statement = connection.prepareCall("{call GETUNDERCAT(?)}");
+            statement.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);
+            statement.execute();
+            ResultSet rs = (ResultSet)statement.getObject(1);
+            
+            while(rs.next()){
+                Kategorie cat = new Kategorie();
+                int kategorie_id_kategorii = rs.getInt("kategorie_id_kategorii");
+                String nazwa_kategorii = rs.getString("nazwa_kategorii");
+                cat.setId_kategorii(kategorie_id_kategorii);
+                cat.setNazwa_kategorii(nazwa_kategorii);
+                
+                
+                Podkategorie undercat = new Podkategorie();
+                int id_podkategorii = rs.getInt("id_podkategorii");
+                String nazwa_podkategorii = rs.getString("nazwa_podkategorii");
+                undercat.setId_podkategorii(id_podkategorii);
+                undercat.setNazwa_podkategorii(nazwa_podkategorii);
+                undercat.setKategorie(cat);
+                
+                list.add(undercat);
+                }
+          }); 
+            closeSessionWithTrans();
+         return list;
     };
     
     public void update(Podkategorie k){

@@ -13,16 +13,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 
-/**
- *
- * @author Arlen
- */
+
+
 @Entity
 @Table(name="Kategorie")
+
+
 public class Kategorie implements Serializable {
 
     private static final long serialVersionUID = 1L;

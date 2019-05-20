@@ -15,8 +15,9 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 /**
  *
@@ -50,9 +51,11 @@ public class Produkty implements Serializable {
     private byte[] zdjecie_produktu;
     
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Podkategorie podkategorie;
     
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Producent producent;
     
     public int getId_produktu() {

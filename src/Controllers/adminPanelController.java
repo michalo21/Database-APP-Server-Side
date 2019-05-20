@@ -18,14 +18,11 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -115,7 +112,6 @@ public class adminPanelController implements Initializable {
     private TextArea textChosenFile;
     @FXML
     private TextField searchingField;
-    @FXML
     private ComboBox choseSearch;
     @FXML
     private TableView<Produkty> tabProduct;
@@ -161,7 +157,6 @@ public class adminPanelController implements Initializable {
     private ComboBox choiceStatus;
     @FXML
     private TextField searchingBoughtField;
-    @FXML
     private ComboBox choseBoughtSearch;
     @FXML
     private Button updBoughtStatus;
@@ -402,7 +397,22 @@ public class adminPanelController implements Initializable {
         }
         });
         
-        //TABELA ZAMOWIENIA - wyswietlanie texfieldy i choiceboxy
+        //TABELA ZAMOWIENIA - wyswietlanie texfieldy i choiceboxy + wszystko inne co tam jest
+        updBoughtStatus.setOnAction((ActionEvent event)->{
+            if(choiceStatus.getValue() !=null){
+                Zamowienia zamowienie = new Zamowienia();
+                zamowienie = tabBought.getSelectionModel().getSelectedItem();
+                zamowienie.setStatus(choiceStatus.getValue().toString());
+                zamowieniaDAO.update(zamowienie);
+                tabBought.setItems(FXCollections.observableList(zamowieniaDAO.getAll()));
+                choiceStatus.valueProperty().set(null);
+
+                
+            }
+        
+        
+        
+        });
         //wyswietlanie w textfieldach i choiceboxach itp itd nacisnietych wlasciwosci rekordu
         tabBought.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Zamowienia> obs, Zamowienia oldSelection, Zamowienia newSelection) -> {
             if (newSelection != null) {
@@ -442,44 +452,20 @@ public class adminPanelController implements Initializable {
             }});  
         //szukanie produktu
         searchingField.setOnKeyReleased(keyEvent ->{
-            FilteredList<Produkty> date = new FilteredList(FXCollections.observableArrayList(produktyDAO.getAll()), p->true);
-             switch(choseSearch.getSelectionModel().getSelectedItem().toString())
-            {
-                case "Kategorie":
-                    date.setPredicate(p -> p.getPodkategorie().getKategorie().getNazwa_kategorii().toLowerCase().contains(searchingField.getText().toLowerCase()));
-                    break;
-                case "Podkategorie":
-                    date.setPredicate(p -> p.getPodkategorie().getNazwa_podkategorii().toLowerCase().contains(searchingField.getText().toLowerCase()));
-                    break;
-                case "Producent":
-                    date.setPredicate(p -> p.getProducent().getNazwa_producenta().toLowerCase().contains(searchingField.getText().toLowerCase()));
-                    break;
-                case "Nazwa produktu":
-                    date.setPredicate(p -> p.getNazwa_produktu().toLowerCase().contains(searchingField.getText().toLowerCase()));
-                    break;    
+            if("".equals(searchingField.getText())){
+                tabProduct.setItems(FXCollections.observableArrayList(produktyDAO.getAll()));
+            }else{
+                tabProduct.setItems(FXCollections.observableArrayList(produktyDAO.searchingProduct(searchingField.getText())));
             }
-            tabProduct.setItems(date);
         });
         
         //SzukajkaZamowienia
         searchingBoughtField.setOnKeyReleased(keyEvent ->{
-            FilteredList<Zamowienia> date = new FilteredList(FXCollections.observableArrayList(zamowieniaDAO.getAll()), p->true);
-             switch(choseBoughtSearch.getSelectionModel().getSelectedItem().toString())
-            {
-                case "Status zamówienia":
-                    date.setPredicate(p -> p.getStatus().toLowerCase().contains(searchingBoughtField.getText().toLowerCase()));
-                    break;
-                case "Nazwa produktu":
-                    date.setPredicate(p -> p.getProdukt().getNazwa_produktu().toLowerCase().contains(searchingBoughtField.getText().toLowerCase()));
-                    break;
-                case "Imie":
-                    date.setPredicate(p -> p.getUzytkownik().getImie().toLowerCase().contains(searchingBoughtField.getText().toLowerCase()));
-                    break;
-                case "Nazwisko":
-                    date.setPredicate(p -> p.getUzytkownik().getNazwisko().toLowerCase().contains(searchingBoughtField.getText().toLowerCase()));
-                    break;
+            if("".equals(searchingBoughtField.getText())){
+                tabBought.setItems(FXCollections.observableArrayList(zamowieniaDAO.getAll()));
+            }else{
+                tabBought.setItems(FXCollections.observableArrayList(zamowieniaDAO.searchingOrderAdmin(searchingBoughtField.getText())));
             }
-            tabBought.setItems(date);
         });
         
         ///@@@@@@@@@@@@@@@@@@@@@ REFRESH ZAZNACZONYHC TABEL np dodamy nowa kategorie i chcemy ja wybrać w tabeli produkty@@@@@@@@@@@@@@@@@@
@@ -560,7 +546,6 @@ public class adminPanelController implements Initializable {
             });
             choiceUnderCat.setItems(FXCollections.observableArrayList(underCatDAO.getAll()));
             choiceProducent.setItems(FXCollections.observableArrayList(producentDAO.getAll()));
-            choseSearch.getItems().addAll("Kategorie", "Podkategorie","Nazwa produktu","Producent");
             tabProduct.setItems(FXCollections.observableList(produktyDAO.getAll()));
             }
        
@@ -570,7 +555,6 @@ public class adminPanelController implements Initializable {
                 nameTableBought.setCellValueFactory(pomoc -> new SimpleStringProperty(pomoc.getValue().getUzytkownik().getImie()));
                 lastTableBought.setCellValueFactory(pomoc -> new SimpleStringProperty(pomoc.getValue().getUzytkownik().getNazwisko()));
                 statusTableBought.setCellValueFactory(new PropertyValueFactory<>("status"));
-                choseBoughtSearch.getItems().addAll("Status zamowienia", "Nazwa produktu", "Imie", "Nazwisko");
                 choiceStatus.getItems().addAll("Nowy", "W realizacji", "Wyslany", "Anulowany");
                 tabBought.setItems(FXCollections.observableList(zamowieniaDAO.getAll()));
             }

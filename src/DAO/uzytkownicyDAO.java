@@ -5,11 +5,11 @@
  */
 package DAO;
 
-import java.util.ArrayList;
-import java.util.List;
-import javafx.collections.ObservableList;
-import modele.Uzytkownicy;
-import org.hibernate.criterion.Restrictions;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+
+
 
 /**
  *
@@ -17,30 +17,29 @@ import org.hibernate.criterion.Restrictions;
  */
 
 public class uzytkownicyDAO extends HibernateUtil{
-     
+    public static  int id;
     
-    public List<Uzytkownicy> getAll() {
-         
-         List<Uzytkownicy> lista = openSessionWithTrans().createCriteria(Uzytkownicy.class).list();
-         closeSessionWithTrans();
-         return lista;
-    };
-    public boolean auth(String login, String passwd){
-      List<Uzytkownicy> users = getAll();
-      if(!users.isEmpty()){
-        for(int i = 0; i < users.size(); i++){
-             if(login.equals(users.get(i).getLogin()) && passwd.equals(users.get(i).getHaslo())){
-                 return true;
-              }else{
-                  continue;
-              }
-          }
-      return false;
-              }else{
-                return true;
-               }
+    public int authUser(String login, String passwd){
+        openSessionWithTrans();
+            getCurrentLocalSession().doWork((Connection connection) -> {
+                CallableStatement statement = connection.prepareCall("{call AUTHUSER(?,?,?)}");
+                statement.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);
+                statement.setString(2, login);
+                statement.setString(3, passwd);
+                statement.execute();
+                ResultSet rs = (ResultSet)statement.getObject(1);
+                while(rs.next()){
+                    id = rs.getInt("id_uzytkownika");   
+                }
+            });         
+        
+        
+        
+        closeSessionWithTrans();
+        return id;
+        
+}   
+    public uzytkownicyDAO(){
     }
-
-    public uzytkownicyDAO(){};
 }
 

@@ -14,8 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @Entity
 @Table(name="Zamowienia")
@@ -30,9 +31,11 @@ public class Zamowienia implements Serializable{
     private int id_zamowienia;
     
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Uzytkownicy uzytkownik;
     
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Produkty produkt;
     
     @Column(name="status_zamowienia")

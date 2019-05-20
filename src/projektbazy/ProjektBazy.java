@@ -25,7 +25,7 @@ public class ProjektBazy extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {     
         
-        Parent root = FXMLLoader.load(getClass().getResource("adminPanel.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("PanelLogowania.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/CSS/panel.css");
         primaryStage.setTitle("Logowanie do bazy danych");

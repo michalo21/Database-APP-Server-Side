@@ -14,8 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 /**
  *
@@ -36,6 +37,7 @@ public class Podkategorie implements Serializable {
     private String nazwa_podkategorii;
     
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Kategorie kategorie;
 
     public Kategorie getKategorie() {

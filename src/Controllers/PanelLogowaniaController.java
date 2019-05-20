@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import DAO.pracownicyDAO;
 import DAO.uzytkownicyDAO;
 import java.io.IOException;
 import java.net.URL;
@@ -37,31 +38,42 @@ public class PanelLogowaniaController implements Initializable {
     private PasswordField passField;
     @FXML
     private Button logInButton;
-    private uzytkownicyDAO uzytk = new uzytkownicyDAO();
     @FXML
     private Label badLoginLabel;
     
-    /**
-     * Initializes the controller class.
-     */
+    
+    private final uzytkownicyDAO uzyt = new uzytkownicyDAO();
+    private final pracownicyDAO prac = new pracownicyDAO();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        logInButton.setOnAction((ActionEvent event)->{
-            if(uzytk.auth(loginField.getText(), passField.getText()) == true){
-                try {   
-                    Parent application = FXMLLoader.load(getClass().getResource("/projektpo2/ProjektPO2.fxml"));
+        logInButton.setOnAction((ActionEvent event)->{          
+            if(uzyt.authUser(loginField.getText(),passField.getText()) > 0){
+                try {
+                    Parent application = FXMLLoader.load(getClass().getResource("/projektbazy/userPanel.fxml"));
                     Scene applicationScene = new Scene(application);
                     applicationScene.getStylesheets().add("/CSS/mainApplicationCSS.css");
                     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                     window.setScene(applicationScene);
-                    window.setTitle("Baza Danych");
+                    window.setTitle("Sklep Komputerowy, witaj użytkowniku!");
+                    window.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(PanelLogowaniaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else if(prac.authAdmin(loginField.getText(),passField.getText()) > 0){
+               try {
+                    Parent application = FXMLLoader.load(getClass().getResource("/projektbazy/adminPanel.fxml"));
+                    Scene applicationScene = new Scene(application);
+                    applicationScene.getStylesheets().add("/CSS/mainApplicationCSS.css");
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    window.setScene(applicationScene);
+                    window.setTitle("Sklep Komputerowy - panel pracownika");
                     window.show();
                 } catch (IOException ex) {
                     Logger.getLogger(PanelLogowaniaController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                badLoginLabel.setText("Zły login lub hasło!");
+                 badLoginLabel.setText("Zły login lub hasło!");
             }
                                 
         });

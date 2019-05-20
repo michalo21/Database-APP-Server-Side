@@ -5,34 +5,42 @@
  */
 package DAO;
 
-import java.sql.Types;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
-import javax.persistence.ParameterMode;
-import javax.persistence.Query;
-import javax.persistence.StoredProcedureQuery;
 import modele.Kategorie;
-import oracle.jdbc.OracleTypes;
-import org.hibernate.procedure.ProcedureCall;
-import org.hibernate.result.Output;
-import org.hibernate.result.ResultSetOutput;
+import org.hibernate.query.Query;
 
-/**
- *
- * @author Arlen
- */
+
 public class kategorieDAO extends HibernateUtil {
-     
+   
+    
     public List<Kategorie> getAll() {
-         /*ProcedureCall call =  openSessionWithTrans().createStoredProcedureCall("GETALLCAT");
-         call.registerParameter(1, Kategorie.class, ParameterMode.REF_CURSOR);
-         call.addSynchronizedEntityClass(Kategorie.class);         
-         Output output = call.getOutputs().getCurrent();
-         List<Kategorie> lista = ((ResultSetOutput)output).getResultList();*/
-         List<Kategorie> lista = openSessionWithTrans().createSQLQuery("Select * from Kategorie").addEntity(Kategorie.class).list();
-         closeSessionWithTrans();
-         return lista;
+        
+         openSessionWithTrans();
+         List<Kategorie> list = new ArrayList<Kategorie>();
+            getCurrentLocalSession().doWork((Connection connection) -> {
+            CallableStatement statement = connection.prepareCall("{call GETCAT(?)}");
+            statement.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);
+            statement.execute();
+            ResultSet rs = (ResultSet)statement.getObject(1);
+            
+            while(rs.next()){
+                Kategorie cat = new Kategorie();
+                int id_kategorii = rs.getInt("id_kategorii");
+                String nazwa_kategorii = rs.getString("nazwa_kategorii");
+                cat.setId_kategorii(id_kategorii);
+                cat.setNazwa_kategorii(nazwa_kategorii);
+                
+                list.add(cat);
+                }
+          }); 
+        closeSessionWithTrans();
+        
+        return list;
+         
     };
     
     public void update(Kategorie k){
@@ -59,3 +67,4 @@ public class kategorieDAO extends HibernateUtil {
     
     public kategorieDAO(){};
 }
+

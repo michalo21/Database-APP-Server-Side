@@ -21,6 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="Uzytkownicy")
+
 public class Uzytkownicy implements Serializable {
 
     private static final long serialVersionUID = 5L;
@@ -43,15 +44,7 @@ public class Uzytkownicy implements Serializable {
     @Column(name="nazwisko")
     private String nazwisko;
 
-    private String IDlogged;
 
-    public String IDlogged() {
-        return IDlogged;
-    }
-    
-    public void setIDlogged(String IDlogged) {
-        this.login = login;
-    }
 
 
     public String getLogin() {
@@ -94,8 +87,8 @@ public class Uzytkownicy implements Serializable {
         this.id_uzytkownika = id_uzytkownika;
     }   
 
-    public Uzytkownicy() {
-        
+     public Uzytkownicy() {
+              
     }
     
     
